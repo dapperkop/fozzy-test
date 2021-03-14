@@ -58,6 +58,10 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service)
     {
+        if ($service->user_id != Auth::id()) {
+            return abort(403);
+        }
+
         $data = $request->all();
 
         $isValidData = $this->isValidData($data, [
@@ -83,6 +87,10 @@ class ServiceController extends Controller
 
     public function delete(Service $service)
     {
+        if ($service->user_id != Auth::id()) {
+            return abort(403);
+        }
+
         try {
             $service->delete();
         } catch (\Exception $exception) {
@@ -100,6 +108,10 @@ class ServiceController extends Controller
 
     public function upgrade(Request $request, Service $service, Product $product)
     {
+        if ($service->user_id != Auth::id()) {
+            return abort(403);
+        }
+
         $data = $request->all();
         $data['product_id'] = $product->ID;
 
@@ -120,12 +132,16 @@ class ServiceController extends Controller
 
     public function downgrade(Request $request, Service $service, Product $product)
     {
+        if ($service->user_id != Auth::id()) {
+            return abort(403);
+        }
+
         $data = $request->all();
-        $data['product'] = $product;
+        $data['product_id'] = $product;
 
         $isValidData = $this->isValidData($data, [
             'name' => 'required|max:255',
-            'product' => [
+            'product_id' => [
                 function ($attribute, Product $value, $fail) use ($service) {
                     if ($value->disk_size != $service->product->disk_size) {
                         $fail('Unable to downgrade in automatic mode');
