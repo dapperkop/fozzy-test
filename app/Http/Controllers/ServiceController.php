@@ -116,7 +116,7 @@ class ServiceController extends Controller
         $data['product_id'] = $product->ID;
 
         $isValidData = $this->isValidData($data, [
-            'name' => 'required|max:255',
+            // 'name' => 'required|max:255',
             'product_id' => 'required|exists:products,ID'
         ]);
 
@@ -124,7 +124,7 @@ class ServiceController extends Controller
             return $isValidData;
         }
 
-        $service->name = $request->input('name');
+        // $service->name = $request->input('name');
         $service->product_id = $product->ID;
 
         return $this->saveService($service);
@@ -140,7 +140,7 @@ class ServiceController extends Controller
         $data['product_id'] = $product;
 
         $isValidData = $this->isValidData($data, [
-            'name' => 'required|max:255',
+            // 'name' => 'required|max:255',
             'product_id' => [
                 function ($attribute, Product $value, $fail) use ($service) {
                     if ($value->disk_size != $service->product->disk_size) {
@@ -154,7 +154,7 @@ class ServiceController extends Controller
             return $isValidData;
         }
 
-        $service->name = $request->input('name');
+        // $service->name = $request->input('name');
         $service->product_id = $product->ID;
 
         return $this->saveService($service);

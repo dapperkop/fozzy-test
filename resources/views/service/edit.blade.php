@@ -80,9 +80,8 @@
                                     serviceId = document.querySelector('form[name="service"] input[name="ID"]').value,
                                     url;
 
-                                formdata.append('name', name);
-
                                 if (action == 'update') {
+                                    formdata.append('name', name);
                                     url = '/api/services/edit/' + serviceId;
                                 } else {
                                     var productId = document.querySelector('form[name="service"] input[name="product_id"]:checked').value;
